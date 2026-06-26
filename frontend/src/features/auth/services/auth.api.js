@@ -1,10 +1,9 @@
-import axios from "axios"
-
+import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true
-})
+});
 
 export async function register({ username, email, password }) {
 
@@ -65,26 +64,18 @@ export async function login({ email, password }) {
 
 export async function logout() {
     try {
-
-        const response = await api.get("/api/auth/logout")
-
-        return response.data
-
+        const response = await api.get("/api/auth/logout");
+        return response.data;
     } catch (err) {
-
+        throw err.response?.data || err;
     }
 }
 
 export async function getMe() {
-
     try {
-
-        const response = await api.get("/api/auth/get-me")
-
-        return response.data
-
+        const response = await api.get("/api/auth/get-me");
+        return response.data;
     } catch (err) {
-        console.log(err)
+        throw err.response?.data || err;
     }
-
 }
